@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WooliesX.TechChallenge.Api</name>
+    </assembly>
+    <members>
+        <member name="T:WooliesX.TechChallenge.Api.Commands.IAsyncCommand">
+            <summary>
+            Executes a single command and returns a result.
+            </summary>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.Commands.IAsyncCommand.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Executes the command asynchronously.
+            </summary>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>The result of the command.</returns>
+        </member>
+        <member name="T:WooliesX.TechChallenge.Api.Commands.IAsyncCommand`1">
+            <summary>
+            Executes a single command and returns a result.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.Commands.IAsyncCommand`1.ExecuteAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            Executes the command asynchronously.
+            </summary>
+            <param name="parameter"></param>
+            <param name="cancellationToken"></param>
+            <returns>The result of the command.</returns>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.Controllers.ProductsController.GetAsync(WooliesX.TechChallenge.Api.Commands.IGetProductsCommand,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets the sorted product list.
+            </summary>
+            <param name="command">The action command.</param>
+            <param name="sortOption"></param>
+            <param name="cancellationToken">The cancellation token used to cancel the HTTP request.</param>
+            <returns>A 200 OK response containing the User or a 404 Not Found if a User with the specified unique
+            identifier was not found.</returns>//"{sortOption}", 
+        </member>
+        <member name="T:WooliesX.TechChallenge.Api.Controllers.UserController">
+            <summary>
+            User controller to provide user details
+            </summary>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.Controllers.UserController.GetAsync(WooliesX.TechChallenge.Api.Commands.IGetUserCommand,System.Threading.CancellationToken)">
+            <summary>
+            Gets the User with the specified unique identifier.
+            </summary>
+            <param name="command">The action command.</param>
+            <param name="cancellationToken">The cancellation token used to cancel the HTTP request.</param>
+            <returns>A 200 OK response containing the User or a 404 Not Found if a User with the specified unique
+            identifier was not found.</returns>
+        </member>
+        <member name="T:WooliesX.TechChallenge.Api.CustomServiceCollectionExtensions">
+            <summary>
+            <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> extension methods which extend ASP.NET Core services.
+            </summary>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.CustomServiceCollectionExtensions.AddCustomOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Configures the settings by binding the contents of the appsettings.json file to the specified Plain Old CLR
+            Objects (POCO) and adding objects to the services collection.
+            </summary>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.CustomServiceCollectionExtensions.AddCustomRouting(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add custom routing settings which determines how URL's are generated.
+            </summary>
+            <param name="services">The services.</param>
+            <returns>The services with routing services added.</returns>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.CustomServiceCollectionExtensions.AddCustomSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds Swagger services and configures the Swagger services.
+            </summary>
+            <param name="services">The services.</param>
+            <returns>The services with Swagger services added.</returns>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.Mappers.IMapper`2.Map(`0,`1)">
+            <summary>
+            Maps an object of type TSource to TDestination.
+            </summary>
+            <param name="source"></param>
+            <param name="destination"></param>
+        </member>
+        <member name="T:WooliesX.TechChallenge.Api.Models.SoldProduct">
+            <summary>
+            SoldProduct data from shopping history
+            </summary>
+        </member>
+        <member name="T:WooliesX.TechChallenge.Api.OperationFilters.ApiVersionOperationFilter">
+            <summary>
+            An Open API operation filter used to document the implicit API version parameter.
+            </summary>
+            <remarks>This <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.IOperationFilter"/> is only required due to bugs in the <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator"/>.
+            Once they are fixed and published, this class can be removed. See:
+            - https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/412
+            - https://github.com/domaindrivendev/Swashbuckle.AspNetCore/pull/413</remarks>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.OperationFilters.ApiVersionOperationFilter.Apply(Microsoft.OpenApi.Models.OpenApiOperation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
+            <inheritdoc/>
+        </member>
+        <member name="T:WooliesX.TechChallenge.Api.Options.ApplicationOptions">
+            <summary>
+            All options for the application.
+            </summary>
+        </member>
+        <member name="T:WooliesX.TechChallenge.Api.ProjectServiceCollectionExtensions">
+            <summary>
+            <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> extension methods add project services.
+            </summary>
+            <remarks>
+            AddSingleton - Only one instance is ever created and returned.
+            AddScoped - A new instance is created and returned for each request/response cycle.
+            AddTransient - A new instance is created and returned each time.
+            </remarks>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.Repositories.ProductRepository.GetProductsAsync(WooliesX.TechChallenge.Api.Constants.SortOption)">
+            <summary>
+            Returns a product list based on the given sort option.
+            "Low" - Low to High Price
+            "High" - High to Low Price
+            "Ascending" - A - Z sort on the Name
+            "Descending" - Z - A sort on the Name
+            "Recommended" - this will call the "shopperHistory" resource to get a list of customers orders and needs to return based on popularity
+            </summary>
+            <param name="sortOption">Sort option</param>
+            <returns>A list of products</returns>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.Repositories.ProductRepository.GetSortedRecomendedProductsAsync">
+            <summary>
+            The method returns a summarised shopper history. In other words this method returns a list of 
+            products with total quantities from the history.
+            </summary>
+            <returns>A list of products</returns>
+        </member>
+        <member name="T:WooliesX.TechChallenge.Api.Services.IResourceService">
+            <summary>
+            Retrieves the product data.
+            </summary>
+        </member>
+        <member name="T:WooliesX.TechChallenge.Api.Services.ResourceService">
+            <summary>
+            Retrieves the current date and/or time. Helps with unit testing by letting you mock the system clock.
+            </summary>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WooliesX.TechChallenge.Api.Startup"/> class.
+            </summary>
+            <param name="configuration">The application configuration, where key value pair settings are stored.</param>
+            <param name="webHostEnvironment">The environment the application is running under. This can be Development,Staging or Production by default.</param>
+        </member>
+        <member name="M:WooliesX.TechChallenge.Api.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:WooliesX.TechChallenge.Api.ViewModels.User">
+            <summary>
+            A make and model of car.
+            </summary>
+        </member>
+        <member name="P:WooliesX.TechChallenge.Api.ViewModels.User.Name">
+            <summary>
+            Gets or sets the user name.
+            </summary>
+            <example>Niel</example>
+        </member>
+        <member name="P:WooliesX.TechChallenge.Api.ViewModels.User.Token">
+            <summary>
+            Gets or sets the user token.
+            </summary>
+            <example>xyz</example>
+        </member>
+    </members>
+</doc>
