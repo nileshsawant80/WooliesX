@@ -16,7 +16,7 @@ namespace WooliesX.TechChallenge.Api.Commands
     {
         private readonly IUserRepository userRepository;
         private readonly IMapper<Models.User, User> userMapper;
-        ILogger<GetUserCommand> logger;
+        private readonly ILogger<GetUserCommand> logger;
 
         public GetUserCommand(
             IUserRepository UserRepository,

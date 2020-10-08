@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using System.ComponentModel.Design;
 using WooliesX.TechChallenge.Api.Repositories;
+using WooliesX.TechChallenge.Api.Services;
 
 namespace WooliesX.TechChallenge.Api.Tests.Fixtures
 {

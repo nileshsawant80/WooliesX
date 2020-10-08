@@ -20,7 +20,7 @@ namespace WooliesX.TechChallenge.Api.Tests.Fixtures
         public CustomWebApplicationFactory(ITestOutputHelper testOutputHelper)
         {
             this.ClientOptions.AllowAutoRedirect = false;
-            this.ClientOptions.BaseAddress = new Uri("https://localhost");
+            this.ClientOptions.BaseAddress = new Uri("https://localhost:44337");
         }
 
         public ApplicationOptions ApplicationOptions { get; private set; }

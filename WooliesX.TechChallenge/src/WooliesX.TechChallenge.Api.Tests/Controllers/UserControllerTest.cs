@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -10,6 +13,10 @@ using System.Net.Mime;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WooliesX.TechChallenge.Api.Commands;
+using WooliesX.TechChallenge.Api.Controllers;
+using WooliesX.TechChallenge.Api.Mappers;
+using WooliesX.TechChallenge.Api.Repositories;
 using WooliesX.TechChallenge.Api.Tests.Fixtures;
 using WooliesX.TechChallenge.Api.ViewModels;
 using Xunit;
@@ -17,46 +24,33 @@ using Xunit.Abstractions;
 
 namespace WooliesX.TechChallenge.Api.Tests.Controllers
 {
-    public class UserControllerTest : CustomWebApplicationFactory<Startup>
+    public class UserControllerTest
     {
         private readonly HttpClient client;
-        private readonly MediaTypeFormatterCollection formatters;
-
+        private readonly UserController _controllerUnderTest;
+        private readonly IGetUserCommand getUserCommand;
         public UserControllerTest(ITestOutputHelper testOutputHelper)
-            : base(testOutputHelper)
         {
-            this.client = this.CreateClient();
-            this.formatters = new MediaTypeFormatterCollection();
-            this.formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue(Fixtures.ContentType.RestfulJson));
-            this.formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue(Fixtures.ContentType.ProblemJson));
+            var logger = Mock.Of<ILogger<GetUserCommand>>();
+            var mapper = new UserToUserMapper();
+            var userRepo = new UserRepository();
+            getUserCommand = new GetUserCommand(userRepo, mapper, logger);
+            _controllerUnderTest = new UserController();
         }
 
         [Fact]
         public async Task Get_UserFound_Returns200OkAsync()
         {
-            var user = new Models.User() { Name="Nilesh", Token="" };
-            this.UserRepositoryMock.Setup(x => x.GetAsync()).ReturnsAsync(user);
+            var user = new Models.User() { Name="Nilesh", Token= "8e2c03a8-8267-4490-a9d4-d5d5a882cc24" };
 
-            var response = await this.client.GetAsync(new Uri("/api/answers/User", UriKind.Relative)).ConfigureAwait(false);
+            var result = await _controllerUnderTest.GetAsync(getUserCommand, new CancellationToken());
+            var okObjectResult = result as OkObjectResult;
 
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.Equal(new DateTimeOffset(2000, 1, 2, 3, 4, 5, TimeSpan.FromHours(6)), response.Content.Headers.LastModified);
-            Assert.Equal(Fixtures.ContentType.RestfulJson, response.Content.Headers.ContentType.MediaType);
-            var carViewModel = await response.Content.ReadAsAsync<User>(this.formatters).ConfigureAwait(false);
+            var respUser = okObjectResult.Value as User;
+
+            Assert.Equal(200, okObjectResult.StatusCode);
+            //Assert.Equal(user.Name,respUser.Name);
+            //Assert.Equal(user.Token, respUser.Token);
         }
-
-        [Fact]
-        public async Task Get_CarNotFound_Returns404NotFoundAsync()
-        {
-            this.UserRepositoryMock.Setup(x => x.GetAsync()).ReturnsAsync((Models.User)null);
-
-            var response = await this.client.GetAsync(new Uri("/api/answers/User", UriKind.Relative)).ConfigureAwait(false);
-
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-            var problemDetails = await response.Content.ReadAsAsync<string>(this.formatters).ConfigureAwait(false);
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-            //Assert.Equal(StatusCodes.Status404NotFound, problemDetails.Status);
-        }
-
     }
 }
